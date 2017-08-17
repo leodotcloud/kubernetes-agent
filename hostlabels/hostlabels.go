@@ -22,7 +22,7 @@ const (
 )
 
 // StartHostLabelSync ...
-func StartHostLabelSync(interval int, k8sClient *kubernetesclient.Client) error {
+func StartHostLabelSync(interval int, kClient *kubernetesclient.Client) error {
 	metadataAddress := os.Getenv("RANCHER_METADATA_ADDRESS")
 	if metadataAddress == "" {
 		metadataAddress = DefaultMetadataAddress
@@ -36,7 +36,7 @@ func StartHostLabelSync(interval int, k8sClient *kubernetesclient.Client) error 
 	}
 	expiringCache := cache.New(cacheExpiryMinutes, 1*time.Minute)
 	h := &hostLabelSyncer{
-		k8sClient:      k8sClient,
+		kClient:        kClient,
 		metadataClient: metadataClient,
 		cache:          expiringCache,
 	}
